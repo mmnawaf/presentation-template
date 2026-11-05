@@ -216,7 +216,9 @@
     };
     % Logo cartouche amU dans l'angle inférieur droit
     \ifx\pfetsi@logoprincipal\@empty\else
-      \node[anchor=south east, inner sep=0pt] at (\paperwidth, 0)
+      % léger débord (0,3 pt) pour coller exactement aux bords de la page
+      \node[anchor=south east, inner sep=0pt, outer sep=0pt]
+        at (\paperwidth+0.3pt, -0.3pt)
         {\includegraphics[width=36mm]{\pfetsi@logoprincipal}};
     \fi
     % Logos partenaires empilés à gauche du logo amU, centrés sur sa hauteur
