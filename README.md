@@ -29,7 +29,7 @@ soutenance.pdf            Exemple compilé
 | Expérimentations | Données et protocole ; résultats quantitatifs ; résultats qualitatifs |
 | Conclusion | Conclusion et perspectives |
 | — | Merci — Questions ? |
-| Annexes | Diapositives de secours pour les questions (non comptées) |
+| Annexes | Répartition des tâches, puis diapositives de secours pour les questions (non comptées) |
 
 ## Compiler
 
