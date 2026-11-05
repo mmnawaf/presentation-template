@@ -8,21 +8,6 @@ Le fichier [`soutenance.pdf`](soutenance.pdf) montre le résultat attendu.
 Les diapositives reprennent le projet d'exemple du
 [modèle de rapport](https://github.com/mmnawaf/report-template).
 
-## Durée de l'exposé
-
-| Taille du groupe | Durée |
-|---|---|
-| 1 étudiant | 8 min |
-| 2 étudiants | 10 min |
-| 3 étudiants | 12 min |
-| 4 étudiants | 14 min |
-
-Indiquez la taille du groupe avec `\nombreetudiants{3}`. Repère : une
-diapositive par minute environ (titre, « Questions » et annexes non
-comptés). Si le diaporama est plus long, un **avertissement** apparaît sous
-le plan de la première diapositive. Compilez deux fois pour que le test
-soit à jour.
-
 ## Contenu du dépôt
 
 ```
@@ -77,7 +62,7 @@ Chaque élément est illustré et commenté dans `soutenance.tex`.
 | Annexes non comptées | `\annexes`, puis les diapositives de secours |
 | Version imprimable sans animations | option `handout` de `\documentclass` |
 | Diapositives de transition entre sections | `\usetheme[intercalaires]{pfetsi}` |
-| Logo (facultatif) | `\logoetablissement{figures/logo}` |
+| Logos en bas à gauche | `\logos{figures/logos/a, figures/logos/b}` |
 
 ## Conseils pour la soutenance
 

@@ -12,6 +12,8 @@
 %% soutenance.tex. Le thème compare le nombre de diapositives à la durée
 %% de l'exposé (8 min + 2 min par étudiant supplémentaire) et affiche un
 %% avertissement sur la diapositive de titre en cas de dépassement.
+%%
+%% Couleurs et logos : charte graphique amU (mise à jour du 18/09/2024).
 %% =====================================================================
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{beamerthemepfetsi}[2026/11/05 v1.0 Theme de soutenance PFE Master TSI]
@@ -24,29 +26,34 @@
 \RequirePackage{tikz}
 \usetikzlibrary{arrows.meta, positioning, babel}
 \RequirePackage{calc}
+\RequirePackage{soul}                   % surlignage de \alert{}
 \RequirePackage{appendixnumberbeamer}   % annexes non comptées
 
 % ---------------------------------------------------------------------
-% Couleurs (modifiables ici pour changer l'identité visuelle)
+% Couleurs de la charte graphique amU
+%   bleu  #1F63DE (Pantone 285C) : couleur principale ;
+%   jaune #FFFF85 (Pantone 903C) : mise en évidence. Trop clair pour du
+%   texte sur fond blanc, il est toujours associé à du texte noir ;
+%   vert  #53DE94 (Pantone 3395C) : secteur sciences et technologies.
 % ---------------------------------------------------------------------
-\definecolor{tsiBleu}{HTML}{1B3A5C}     % couleur principale
-\definecolor{tsiAccent}{HTML}{E0782A}   % mise en évidence, \alert{}
-\definecolor{tsiVert}{HTML}{2E7D5B}     % exemples, résultats positifs
-\definecolor{tsiTexte}{HTML}{23272F}
+\definecolor{tsiBleu}{HTML}{1F63DE}
+\definecolor{tsiJaune}{HTML}{FFFF85}
+\definecolor{tsiVert}{HTML}{53DE94}
+\definecolor{tsiTexte}{HTML}{1A1A1A}
 \definecolor{tsiGris}{HTML}{6B7280}
-\definecolor{tsiFond}{HTML}{EEF2F7}
+\definecolor{tsiFond}{HTML}{EEF3FC}
 
 \setbeamercolor{normal text}{fg=tsiTexte, bg=white}
 \setbeamercolor{structure}{fg=tsiBleu}
-\setbeamercolor{alerted text}{fg=tsiAccent}
-\setbeamercolor{example text}{fg=tsiVert}
+\setbeamercolor{alerted text}{fg=tsiTexte, bg=tsiJaune}
+\setbeamercolor{example text}{fg=tsiTexte}
 \setbeamercolor{frametitle}{fg=white, bg=tsiBleu}
 \setbeamercolor{block title}{fg=white, bg=tsiBleu}
 \setbeamercolor{block body}{fg=tsiTexte, bg=tsiFond}
-\setbeamercolor{block title alerted}{fg=white, bg=tsiAccent}
-\setbeamercolor{block body alerted}{fg=tsiTexte, bg=tsiAccent!10}
-\setbeamercolor{block title example}{fg=white, bg=tsiVert}
-\setbeamercolor{block body example}{fg=tsiTexte, bg=tsiVert!10}
+\setbeamercolor{block title alerted}{fg=tsiTexte, bg=tsiJaune}
+\setbeamercolor{block body alerted}{fg=tsiTexte, bg=tsiJaune!35}
+\setbeamercolor{block title example}{fg=tsiTexte, bg=tsiVert}
+\setbeamercolor{block body example}{fg=tsiTexte, bg=tsiVert!15}
 \setbeamercolor{footline}{fg=tsiGris}
 \setbeamercolor{caption}{fg=tsiGris}
 \setbeamercolor{bibliography entry author}{fg=tsiTexte}
@@ -63,7 +70,7 @@
   \RequirePackage[sfdefault, lining]{FiraSans}
   \RequirePackage[scaled=0.97]{newtxsf}
 }{}
-\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamerfont{title}{size=\Large, series=\bfseries}
 \setbeamerfont{frametitle}{size=\large, series=\bfseries}
 \setbeamerfont{block title}{size=\normalsize, series=\bfseries}
 \setbeamerfont{footline}{size=\scriptsize}
@@ -79,12 +86,21 @@
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 \setbeamertemplate{bibliography item}{\insertbiblabel}
 \setbeamertemplate{itemize item}{%
-  \raisebox{0.2ex}{\color{tsiAccent}\rule{0.8ex}{0.8ex}}}
+  \raisebox{0.15ex}{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.4pt}%
+    \fcolorbox{tsiTexte}{tsiJaune}{\rule{0.75ex}{0pt}\rule{0pt}{0.75ex}}}}
 \setbeamertemplate{itemize subitem}{\color{tsiGris}\textendash}
-\setbeamertemplate{enumerate item}{\color{tsiAccent}\bfseries\insertenumlabel.}
+\setbeamertemplate{enumerate item}{%
+  \colorbox{tsiJaune}{\color{tsiTexte}\bfseries\insertenumlabel}}
 \setbeamertemplate{section in toc}{%
-  \makebox[1.6em][l]{\color{tsiAccent}\bfseries\inserttocsectionnumber}%
-  \inserttocsection\par}
+  \makebox[1.8em][l]{\setlength{\fboxsep}{1.5pt}%
+    \colorbox{tsiJaune}{\makebox[1em]{\color{tsiTexte}\bfseries
+      \inserttocsectionnumber}}}%
+  \inserttocsection\par\vspace{0.6mm}}
+
+% \alert{} : texte noir surligné en jaune (le jaune amU est illisible
+% comme couleur de texte sur fond blanc)
+\sethlcolor{tsiJaune}
+\renewcommand<>{\alert}[1]{{\alt#2{\hl{#1}}{#1}}}
 \setbeamertemplate{subsection in toc}{}
 
 % Titre de diapositive : bandeau pleine largeur + barre de progression
@@ -112,22 +128,24 @@
   \fi
   \begin{beamercolorbox}[wd=\paperwidth]{}%
     \begin{tikzpicture}
-      \fill[tsiBleu!20] (0, 0) rectangle (\paperwidth, 0.7mm);
-      \fill[tsiAccent] (0, 0) rectangle (\pfetsi@progression, 0.7mm);
+      \fill[tsiBleu] (0, 0) rectangle (\paperwidth, 0.8mm);
+      \fill[tsiJaune] (0, 0) rectangle (\pfetsi@progression, 0.8mm);
     \end{tikzpicture}%
   \end{beamercolorbox}%
 }
 
-% Pied de page : auteurs | section | numéro
+% Pied de page : logos | section | numéro
 \setbeamertemplate{footline}{%
-  \begin{beamercolorbox}[wd=\paperwidth, ht=3mm, dp=3mm,
-                         leftskip=8mm, rightskip=8mm]{footline}%
+  \begin{beamercolorbox}[wd=\paperwidth, ht=8mm, dp=3mm,
+                         leftskip=6mm, rightskip=8mm]{footline}%
     \usebeamerfont{footline}%
-    \makebox[\dimexpr(\paperwidth-16mm)*2/5\relax][l]{\insertshortauthor}%
-    \makebox[\dimexpr(\paperwidth-16mm)*2/5\relax][c]{\insertsectionhead}%
-    \makebox[\dimexpr(\paperwidth-16mm)/5\relax][r]{%
-      \ifpfetsi@annexe Annexe~\insertframenumber
-      \else\insertframenumber\,/\,\inserttotalframenumber\fi}%
+    \makebox[\dimexpr(\paperwidth-14mm)*2/5\relax][l]{%
+      \pfetsi@rangeelogos{6mm}}%
+    \raisebox{2.3mm}{%
+      \makebox[\dimexpr(\paperwidth-14mm)*2/5\relax][c]{\insertsectionhead}%
+      \makebox[\dimexpr(\paperwidth-14mm)/5\relax][r]{%
+        \ifpfetsi@annexe Annexe~\insertframenumber
+        \else\insertframenumber\,/\,\inserttotalframenumber\fi}}%
   \end{beamercolorbox}%
 }
 
@@ -138,16 +156,19 @@
 \newcommand*{\pfetsi@formation}{Master Traitement du Signal et des Images
   (TSI), M2\\Projet de fin d'études}
 \newcommand*{\pfetsi@etablissement}{Aix-Marseille Université}
-\newcommand*{\pfetsi@logo}{}
 \newcommand*{\pfetsi@etudiants}{1}
 \newcommand*{\encadrants}[1]{\renewcommand*{\pfetsi@encadrants}{#1}}
 \newcommand*{\formation}[1]{\renewcommand*{\pfetsi@formation}{#1}}
 \newcommand*{\etablissement}[1]{\renewcommand*{\pfetsi@etablissement}{#1}}
 \newcommand*{\nombreetudiants}[1]{\renewcommand*{\pfetsi@etudiants}{#1}}
-% Logo facultatif, affiché en haut à droite de la diapositive de titre :
-% \logoetablissement{figures/logo.pdf}
-\newcommand*{\logoetablissement}[1]{%
-  \renewcommand*{\pfetsi@logo}{\includegraphics[height=9mm]{#1}}}
+% Logos affichés en bas à gauche de chaque diapositive, séparés par des
+% virgules : \logos{figures/logos/a, figures/logos/b}
+\newcommand*{\pfetsi@logos}{}
+\newcommand*{\logos}[1]{\renewcommand*{\pfetsi@logos}{#1}}
+\newcommand{\pfetsi@rangeelogos}[1]{%
+  \foreach \pfetsi@fichier [count=\pfetsi@n] in \pfetsi@logos {%
+    \ifnum\pfetsi@n>1 \hspace{3mm}\fi
+    \includegraphics[height=#1]{\pfetsi@fichier}}}
 
 % ---------------------------------------------------------------------
 % Durée de l'exposé et nombre de diapositives
@@ -167,42 +188,46 @@
     \PackageWarningNoLine{beamerthemepfetsi}{\pfetsi@nbdiapos\space
       diapositives pour \pfetsi@duree\space minutes d'exposé}%
     \par\vspace{5mm}%
-    \colorbox{tsiAccent}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
-      \raggedright\hyphenpenalty=10000\color{white}\bfseries\small
+    \colorbox{tsiJaune}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+      \raggedright\hyphenpenalty=10000\color{tsiTexte}\bfseries\small
       Attention : \pfetsi@nbdiapos~diapositives pour
       \pfetsi@duree~minutes d'exposé (repère : une par minute).}}%
   \fi}
 
 % ---------------------------------------------------------------------
 % Diapositive de titre et plan (\diapotitre) : titre à gauche sur fond
-% coloré, plan à droite.
+% bleu, plan à droite, logos dans le bandeau blanc du bas.
 % ---------------------------------------------------------------------
+\newlength{\pfetsi@bandeau}
+\setlength{\pfetsi@bandeau}{18mm}
 \newcommand{\pfetsi@fondtitre}{%
   \begin{tikzpicture}
     \useasboundingbox (0, 0) rectangle (\paperwidth, \paperheight);
-    \fill[tsiBleu] (0, 0) rectangle (0.5\paperwidth, \paperheight);
-    \fill[tsiAccent] (0, 0) rectangle (0.5\paperwidth, 1.2mm);
+    \fill[tsiBleu] (0, \pfetsi@bandeau) rectangle
+      (0.5\paperwidth, \paperheight);
+    \fill[tsiJaune] (0, \pfetsi@bandeau) rectangle
+      (0.5\paperwidth, \pfetsi@bandeau+1.2mm);
     \node[anchor=north west, inner sep=0pt, text width=0.5\paperwidth-16mm,
-          align=left, text=white] at (8mm, \paperheight-12mm) {%
+          align=left, text=white] at (8mm, \paperheight-9mm) {%
       {\usebeamerfont{title}\hyphenpenalty=10000\inserttitle\par}%
-      \vspace{6mm}%
+      \vspace{4mm}%
       {\bfseries\insertauthor\par}%
-      \vspace{1.5mm}%
+      \vspace{1mm}%
       {\small Encadrement : \pfetsi@encadrants\par}%
+      \vspace{4mm}%
+      {\footnotesize\pfetsi@formation\\
+       \pfetsi@etablissement\par}%
+      \vspace{1.5mm}%
+      {\footnotesize\bfseries\insertdate\par}%
     };
-    \node[anchor=south west, inner sep=0pt, text width=0.5\paperwidth-16mm,
-          align=left, text=white, font=\footnotesize] at (8mm, 9mm) {%
-      \pfetsi@formation\\
-      \pfetsi@etablissement\\[1.5mm]
-      {\bfseries\insertdate}%
-    };
-    \node[anchor=north east, inner sep=0pt]
-      at (\paperwidth-8mm, \paperheight-8mm) {\pfetsi@logo};
+    \node[anchor=west, inner sep=0pt] at (6mm, 0.5\pfetsi@bandeau)
+      {\pfetsi@rangeelogos{10mm}};
   \end{tikzpicture}%
 }
 \newcommand{\diapotitre}{%
   {\setbeamertemplate{background canvas}{\pfetsi@fondtitre}%
    \begin{frame}[plain, noframenumbering]
+     \vspace{-\pfetsi@bandeau}%
      \hfill
      \begin{minipage}[c]{0.5\paperwidth-16mm}
        {\usebeamercolor[fg]{structure}\large\bfseries Plan\par}
@@ -230,7 +255,7 @@
     {\setbeamercolor{background canvas}{bg=tsiBleu}%
      \begin{frame}[plain, noframenumbering]
        \color{white}
-       {\Huge\bfseries\color{tsiAccent}\insertsectionnumber\par}
+       {\Huge\bfseries\color{tsiJaune}\insertsectionnumber\par}
        \vspace{2mm}
        {\LARGE\bfseries\insertsectionhead\par}
      \end{frame}}}

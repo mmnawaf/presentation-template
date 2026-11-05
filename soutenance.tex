@@ -60,7 +60,8 @@
 \date{Soutenance du 15 juin 2027}
 \encadrants{Prénom NOM}
 \nombreetudiants{3}                 % fixe la durée : 8 + 2 x (3 - 1) = 12 min
-% \logoetablissement{figures/logo}  % logo facultatif (fichier à fournir)
+% Logos en bas à gauche de chaque diapositive (fichiers dans figures/logos)
+\logos{figures/logos/amu_cartouche_bleu, figures/logos/amu_faculte_sciences}
 
 \begin{document}
 
@@ -124,25 +125,25 @@
     \begin{column}{0.31\textwidth}
       \begin{block}{Blocs (BM)~\cite{jain1981}}
         \small
-        \textcolor{tsiVert}{$+$} simple, robuste\\
-        \textcolor{tsiAccent}{$-$} précision au pixel\\
-        \textcolor{tsiAccent}{$-$} coût $\propto R^2$
+        \textbf{$+$} simple, robuste\\
+        \textbf{$-$} précision au pixel\\
+        \textbf{$-$} coût $\propto R^2$
       \end{block}
     \end{column}
     \begin{column}{0.31\textwidth}
       \begin{block}{Variationnelles~\cite{horn1981}}
         \small
-        \textcolor{tsiVert}{$+$} champ dense et lisse\\
-        \textcolor{tsiAccent}{$-$} coût de calcul\\
-        \textcolor{tsiAccent}{$-$} lisse les contours
+        \textbf{$+$} champ dense et lisse\\
+        \textbf{$-$} coût de calcul\\
+        \textbf{$-$} lisse les contours
       \end{block}
     \end{column}
     \begin{column}{0.31\textwidth}
       \begin{block}{Apprentissage~\cite{dosovitskiy2015, teed2020}}
         \small
-        \textcolor{tsiVert}{$+$} meilleure précision\\
-        \textcolor{tsiAccent}{$-$} données, GPU\\
-        \textcolor{tsiAccent}{$-$} peu interprétables
+        \textbf{$+$} meilleure précision\\
+        \textbf{$-$} données, GPU\\
+        \textbf{$-$} peu interprétables
       \end{block}
     \end{column}
   \end{columns}
@@ -259,7 +260,7 @@
     \midrule
     BM    & 1.89 & 25.1 & 2.08 & 21.7 & 1.93 & 15.6 & 0.42 \\
     MCL   & 0.29 &  9.5 & 0.30 &  9.1 & 5.90 & 52.1 & 0.04 \\
-    \rowcolor{tsiAccent!15}
+    \rowcolor{tsiJaune}
     MCL-P & 0.13 &  2.9 & 0.10 &  2.4 & 0.28 &  0.9 & 0.07 \\
     \bottomrule
   \end{tabular}
