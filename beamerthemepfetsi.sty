@@ -1,0 +1,245 @@
+%% =====================================================================
+%% beamerthemepfetsi.sty -- Thème Beamer des soutenances de projet de fin
+%%                          d'études (PFE) du Master Traitement du Signal
+%%                          et des Images (TSI), M2, Aix-Marseille Université.
+%%
+%% Utilisation : \usetheme{pfetsi}           (dans soutenance.tex)
+%% Option      : \usetheme[intercalaires]{pfetsi}
+%%               ajoute une diapositive de transition au début de chaque
+%%               section (non comptée dans la numérotation).
+%%
+%% Les étudiants n'ont PAS à modifier ce fichier : tout se passe dans
+%% soutenance.tex. Le thème compare le nombre de diapositives à la durée
+%% de l'exposé (8 min + 2 min par étudiant supplémentaire) et affiche un
+%% avertissement sur la diapositive de titre en cas de dépassement.
+%% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemepfetsi}[2026/11/05 v1.0 Theme de soutenance PFE Master TSI]
+
+\newif\ifpfetsi@intercalaires
+\newif\ifpfetsi@annexe
+\DeclareOption{intercalaires}{\pfetsi@intercalairestrue}
+\ProcessOptions\relax
+
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, babel}
+\RequirePackage{calc}
+\RequirePackage{appendixnumberbeamer}   % annexes non comptées
+
+% ---------------------------------------------------------------------
+% Couleurs (modifiables ici pour changer l'identité visuelle)
+% ---------------------------------------------------------------------
+\definecolor{tsiBleu}{HTML}{1B3A5C}     % couleur principale
+\definecolor{tsiAccent}{HTML}{E0782A}   % mise en évidence, \alert{}
+\definecolor{tsiVert}{HTML}{2E7D5B}     % exemples, résultats positifs
+\definecolor{tsiTexte}{HTML}{23272F}
+\definecolor{tsiGris}{HTML}{6B7280}
+\definecolor{tsiFond}{HTML}{EEF2F7}
+
+\setbeamercolor{normal text}{fg=tsiTexte, bg=white}
+\setbeamercolor{structure}{fg=tsiBleu}
+\setbeamercolor{alerted text}{fg=tsiAccent}
+\setbeamercolor{example text}{fg=tsiVert}
+\setbeamercolor{frametitle}{fg=white, bg=tsiBleu}
+\setbeamercolor{block title}{fg=white, bg=tsiBleu}
+\setbeamercolor{block body}{fg=tsiTexte, bg=tsiFond}
+\setbeamercolor{block title alerted}{fg=white, bg=tsiAccent}
+\setbeamercolor{block body alerted}{fg=tsiTexte, bg=tsiAccent!10}
+\setbeamercolor{block title example}{fg=white, bg=tsiVert}
+\setbeamercolor{block body example}{fg=tsiTexte, bg=tsiVert!10}
+\setbeamercolor{footline}{fg=tsiGris}
+\setbeamercolor{caption}{fg=tsiGris}
+\setbeamercolor{bibliography entry author}{fg=tsiTexte}
+\setbeamercolor{bibliography entry title}{fg=tsiTexte}
+\setbeamercolor{bibliography entry location}{fg=tsiGris}
+\setbeamercolor{bibliography entry note}{fg=tsiGris}
+
+% ---------------------------------------------------------------------
+% Polices : Fira Sans et mathématiques sans empattement assorties
+% ---------------------------------------------------------------------
+\RequirePackage[T1]{fontenc}
+\IfFileExists{FiraSans.sty}{%
+  \usefonttheme{professionalfonts}
+  \RequirePackage[sfdefault, lining]{FiraSans}
+  \RequirePackage[scaled=0.97]{newtxsf}
+}{}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{block title}{size=\normalsize, series=\bfseries}
+\setbeamerfont{footline}{size=\scriptsize}
+\setbeamerfont{caption}{size=\footnotesize}
+\setbeamerfont{section in toc}{size=\normalsize}
+
+% ---------------------------------------------------------------------
+% Mise en page générale
+% ---------------------------------------------------------------------
+\setbeamersize{text margin left=8mm, text margin right=8mm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\setbeamertemplate{itemize item}{%
+  \raisebox{0.2ex}{\color{tsiAccent}\rule{0.8ex}{0.8ex}}}
+\setbeamertemplate{itemize subitem}{\color{tsiGris}\textendash}
+\setbeamertemplate{enumerate item}{\color{tsiAccent}\bfseries\insertenumlabel.}
+\setbeamertemplate{section in toc}{%
+  \makebox[1.6em][l]{\color{tsiAccent}\bfseries\inserttocsectionnumber}%
+  \inserttocsection\par}
+\setbeamertemplate{subsection in toc}{}
+
+% Titre de diapositive : bandeau pleine largeur + barre de progression
+\newlength{\pfetsi@progression}
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth, ht=7mm, dp=3mm,
+                         leftskip=8mm, rightskip=8mm]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle
+  \end{beamercolorbox}%
+  \nointerlineskip
+  \pfetsi@barreprogression
+  \vspace{1mm}%
+}
+\newcommand{\pfetsi@barreprogression}{%
+  \ifpfetsi@annexe
+    \setlength{\pfetsi@progression}{0pt}%
+  \else
+    \ifnum\insertframenumber>\inserttotalframenumber\relax
+      \setlength{\pfetsi@progression}{\paperwidth}%
+    \else
+      \setlength{\pfetsi@progression}{\paperwidth *
+        \ratio{\insertframenumber pt}{\inserttotalframenumber pt}}%
+    \fi
+  \fi
+  \begin{beamercolorbox}[wd=\paperwidth]{}%
+    \begin{tikzpicture}
+      \fill[tsiBleu!20] (0, 0) rectangle (\paperwidth, 0.7mm);
+      \fill[tsiAccent] (0, 0) rectangle (\pfetsi@progression, 0.7mm);
+    \end{tikzpicture}%
+  \end{beamercolorbox}%
+}
+
+% Pied de page : auteurs | section | numéro
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth, ht=3mm, dp=3mm,
+                         leftskip=8mm, rightskip=8mm]{footline}%
+    \usebeamerfont{footline}%
+    \makebox[\dimexpr(\paperwidth-16mm)*2/5\relax][l]{\insertshortauthor}%
+    \makebox[\dimexpr(\paperwidth-16mm)*2/5\relax][c]{\insertsectionhead}%
+    \makebox[\dimexpr(\paperwidth-16mm)/5\relax][r]{%
+      \ifpfetsi@annexe Annexe~\insertframenumber
+      \else\insertframenumber\,/\,\inserttotalframenumber\fi}%
+  \end{beamercolorbox}%
+}
+
+% ---------------------------------------------------------------------
+% Informations de la diapositive de titre
+% ---------------------------------------------------------------------
+\newcommand*{\pfetsi@encadrants}{Prénom NOM}
+\newcommand*{\pfetsi@formation}{Master Traitement du Signal et des Images
+  (TSI), M2\\Projet de fin d'études}
+\newcommand*{\pfetsi@etablissement}{Aix-Marseille Université}
+\newcommand*{\pfetsi@logo}{}
+\newcommand*{\pfetsi@etudiants}{1}
+\newcommand*{\encadrants}[1]{\renewcommand*{\pfetsi@encadrants}{#1}}
+\newcommand*{\formation}[1]{\renewcommand*{\pfetsi@formation}{#1}}
+\newcommand*{\etablissement}[1]{\renewcommand*{\pfetsi@etablissement}{#1}}
+\newcommand*{\nombreetudiants}[1]{\renewcommand*{\pfetsi@etudiants}{#1}}
+% Logo facultatif, affiché en haut à droite de la diapositive de titre :
+% \logoetablissement{figures/logo.pdf}
+\newcommand*{\logoetablissement}[1]{%
+  \renewcommand*{\pfetsi@logo}{\includegraphics[height=9mm]{#1}}}
+
+% ---------------------------------------------------------------------
+% Durée de l'exposé et nombre de diapositives
+%   durée = 8 min pour un étudiant + 2 min par étudiant supplémentaire ;
+%   repère : une diapositive par minute environ (titre, « Questions » et
+%   annexes non comptés). Le test utilise la compilation précédente.
+% ---------------------------------------------------------------------
+\newcommand*{\pfetsi@duree}{\the\numexpr 8 + 2 * (\pfetsi@etudiants - 1)\relax}
+\newcommand*{\pfetsi@nbdiapos}{%
+  \ifcsname mainendframenumber\endcsname
+    \csname mainendframenumber\endcsname
+  \else
+    \inserttotalframenumber
+  \fi}
+\newcommand{\pfetsi@alerte}{%
+  \ifnum\pfetsi@nbdiapos>\pfetsi@duree\relax
+    \PackageWarningNoLine{beamerthemepfetsi}{\pfetsi@nbdiapos\space
+      diapositives pour \pfetsi@duree\space minutes d'exposé}%
+    \par\vspace{5mm}%
+    \colorbox{tsiAccent}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+      \raggedright\hyphenpenalty=10000\color{white}\bfseries\small
+      Attention : \pfetsi@nbdiapos~diapositives pour
+      \pfetsi@duree~minutes d'exposé (repère : une par minute).}}%
+  \fi}
+
+% ---------------------------------------------------------------------
+% Diapositive de titre et plan (\diapotitre) : titre à gauche sur fond
+% coloré, plan à droite.
+% ---------------------------------------------------------------------
+\newcommand{\pfetsi@fondtitre}{%
+  \begin{tikzpicture}
+    \useasboundingbox (0, 0) rectangle (\paperwidth, \paperheight);
+    \fill[tsiBleu] (0, 0) rectangle (0.5\paperwidth, \paperheight);
+    \fill[tsiAccent] (0, 0) rectangle (0.5\paperwidth, 1.2mm);
+    \node[anchor=north west, inner sep=0pt, text width=0.5\paperwidth-16mm,
+          align=left, text=white] at (8mm, \paperheight-12mm) {%
+      {\usebeamerfont{title}\hyphenpenalty=10000\inserttitle\par}%
+      \vspace{6mm}%
+      {\bfseries\insertauthor\par}%
+      \vspace{1.5mm}%
+      {\small Encadrement : \pfetsi@encadrants\par}%
+    };
+    \node[anchor=south west, inner sep=0pt, text width=0.5\paperwidth-16mm,
+          align=left, text=white, font=\footnotesize] at (8mm, 9mm) {%
+      \pfetsi@formation\\
+      \pfetsi@etablissement\\[1.5mm]
+      {\bfseries\insertdate}%
+    };
+    \node[anchor=north east, inner sep=0pt]
+      at (\paperwidth-8mm, \paperheight-8mm) {\pfetsi@logo};
+  \end{tikzpicture}%
+}
+\newcommand{\diapotitre}{%
+  {\setbeamertemplate{background canvas}{\pfetsi@fondtitre}%
+   \begin{frame}[plain, noframenumbering]
+     \hfill
+     \begin{minipage}[c]{0.5\paperwidth-16mm}
+       {\usebeamercolor[fg]{structure}\large\bfseries Plan\par}
+       \vspace{4mm}
+       \tableofcontents
+       \pfetsi@alerte
+     \end{minipage}
+   \end{frame}}%
+}
+
+% Diapositive de clôture
+\newcommand{\diapoquestions}[1][Merci de votre attention]{%
+  {\setbeamercolor{background canvas}{bg=tsiBleu}%
+   \begin{frame}[plain, noframenumbering]
+     \centering\color{white}
+     {\Large\bfseries #1\par}
+     \vspace{5mm}
+     {\large Questions ?\par}
+   \end{frame}}%
+}
+
+% Diapositives de transition (option « intercalaires »)
+\ifpfetsi@intercalaires
+  \AtBeginSection{%
+    {\setbeamercolor{background canvas}{bg=tsiBleu}%
+     \begin{frame}[plain, noframenumbering]
+       \color{white}
+       {\Huge\bfseries\color{tsiAccent}\insertsectionnumber\par}
+       \vspace{2mm}
+       {\LARGE\bfseries\insertsectionhead\par}
+     \end{frame}}}
+\fi
+
+% ---------------------------------------------------------------------
+% Annexes : \annexes remplace \appendix ; les diapositives suivantes ne
+% sont ni comptées dans le total ni dans la barre de progression.
+% ---------------------------------------------------------------------
+\newcommand{\annexes}{\appendix\pfetsi@annexetrue}
+
+\endinput

@@ -1,0 +1,36 @@
+% =====================================================================
+% schema_pyramide.tex -- Schéma-bloc dessiné avec TikZ
+% Inclus dans soutenance.tex par \input{figures/schema_pyramide}.
+% Un schéma TikZ utilise automatiquement les polices du document.
+% =====================================================================
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >={Stealth[length=4pt]},
+    image/.style={draw, fill=black!12, inner sep=0pt},
+    bloc/.style={draw, rounded corners=2pt, fill=black!4, align=center,
+                 inner sep=3pt, minimum height=8mm, text width=27mm},
+    lien/.style={->, semithick},
+  ]
+  % Pyramides gaussiennes de I1 et I2 (niveau 2 = le plus grossier)
+  \foreach \n/\c/\y in {2/4/0, 1/7/-15, 0/10/-31} {
+    \node[image, minimum size=\c mm] at (0.8mm, \y mm - 0.8mm) {};
+    \node[image, minimum size=\c mm] (p\n) at (0, \y mm) {};
+  }
+  \node[left=3mm of p2, align=right] {niveau 2\\ $64 \times 64$};
+  \node[left=3mm of p1, align=right] {niveau 1\\ $128 \times 128$};
+  \node[left=3mm of p0, align=right] {niveau 0\\ $256 \times 256$};
+  \node[above=2mm of p2] {$I_1^{(\ell)},\, I_2^{(\ell)}$};
+
+  % Estimation à chaque niveau
+  \node[bloc] (b2) at (33mm, 0)      {Estimation MCL\\ initialisée à $\bm{0}$};
+  \node[bloc] (b1) at (33mm, -15mm)  {Raffinement MCL\\ ($K$ itérations)};
+  \node[bloc] (b0) at (33mm, -31mm)  {Raffinement MCL\\ ($K$ itérations)};
+  \foreach \n in {2, 1, 0} {
+    \draw[lien] (p\n.east) ++(0.8mm, 0) -- (b\n.west);
+  }
+
+  % Propagation du champ vers le niveau plus fin
+  \draw[lien] (b2) -- node[right, align=left] {$\bm{u}^{(2)}$\\ $\uparrow 2,\ \times 2$} (b1);
+  \draw[lien] (b1) -- node[right, align=left] {$\bm{u}^{(1)}$\\ $\uparrow 2,\ \times 2$} (b0);
+  \draw[lien] (b0.east) -- ++(6mm, 0) node[right] {$\hat{\bm{u}}$};
+\end{tikzpicture}
