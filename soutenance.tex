@@ -288,31 +288,35 @@
 % =====================================================================
 \section{Conclusion}
 
-% Contributions : ce que le projet apporte, en une ligne par point.
-\begin{frame}{Contributions}
-  \begin{enumerate}
-    \item Moindres carrés locaux à solution explicite
-    \item Critère de fiabilité $\lambda_{\min}$
-    \item Extension pyramidale
-    \item Évaluation avec vérité terrain
-  \end{enumerate}
-\end{frame}
-
+% Une ligne par point : contributions, résultats à retenir, perspectives.
 \begin{frame}{Conclusion et perspectives}
+  \begin{block}{Contributions}
+    \begin{columns}[T, onlytextwidth]
+      \begin{column}{0.56\linewidth}
+        \begin{enumerate}
+          \item Moindres carrés locaux explicites
+          \item Critère de fiabilité $\lambda_{\min}$
+        \end{enumerate}
+      \end{column}
+      \begin{column}{0.42\linewidth}
+        \begin{enumerate}
+          \setcounter{enumi}{2}
+          \item Extension pyramidale
+          \item Évaluation avec vérité terrain
+        \end{enumerate}
+      \end{column}
+    \end{columns}
+  \end{block}
   \begin{block}{À retenir}
     \begin{itemize}
-      \item Estimation locale à solution explicite, avec un critère de
-            fiabilité ($\lambda_{\min}$) et une extension pyramidale
       \item EPE de \num{0.10} à \qty{0.28}{\pixel}, contre environ
-            \qty{2}{\pixel} pour BM, pour un calcul 6 fois plus rapide
+            \qty{2}{\pixel} pour BM
+      \item Calcul environ 6 fois plus rapide que BM
     \end{itemize}
   \end{block}
-  \vspace{2mm}
   \begin{exampleblock}{Perspectives}
     \begin{itemize}
-      \item Suivi de points d'intérêt choisis là où $\lambda_{\min}$ est
-            grand
-      \item Modèle de mouvement affine par fenêtre
+      \item Suivi de points d'intérêt là où $\lambda_{\min}$ est grand
       \item Évaluation sur des séquences réelles (Middlebury)
     \end{itemize}
   \end{exampleblock}

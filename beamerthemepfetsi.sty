@@ -85,7 +85,8 @@
   \raisebox{0.15ex}{\color{tsiJaune}\rule{0.8ex}{0.8ex}}}
 \setbeamertemplate{itemize subitem}{\color{tsiGris}\textendash}
 \setbeamertemplate{enumerate item}{%
-  \colorbox{tsiJaune}{\color{tsiTexte}\bfseries\insertenumlabel}}
+  \setlength{\fboxsep}{1.5pt}%
+  \colorbox{tsiJaune}{\makebox[1em]{\color{tsiTexte}\bfseries\insertenumlabel}}}
 \setbeamertemplate{section in toc}{%
   \makebox[1.8em][l]{\setlength{\fboxsep}{1.5pt}%
     \colorbox{tsiJaune}{\makebox[1em]{\color{tsiTexte}\bfseries
@@ -166,24 +167,36 @@
 % Diapositive de titre et plan (\diapotitre) : titre à gauche sur fond
 % bleu, plan à droite, logo amU en bas à droite.
 % ---------------------------------------------------------------------
+% Ligne d'information avec une icône jaune (Font Awesome si disponible)
+\newif\ifpfetsi@icones
+\IfFileExists{fontawesome5.sty}{%
+  \RequirePackage{fontawesome5}\pfetsi@iconestrue}{}
+\newcommand*{\pfetsi@icone}[1]{%
+  \ifpfetsi@icones\faIcon{#1}\else\textbullet\fi}
+\newcommand{\pfetsi@ligneinfo}[2]{%
+  \noindent\makebox[6mm][l]{\color{tsiJaune}\pfetsi@icone{#1}}%
+  \parbox[t]{\dimexpr\linewidth-6mm\relax}{\raggedright#2}\par}
 \newcommand{\pfetsi@fondtitre}{%
   \begin{tikzpicture}
     \useasboundingbox (0, 0) rectangle (\paperwidth, \paperheight);
     \fill[tsiBleu] (0, 0) rectangle (0.5\paperwidth, \paperheight);
     \fill[tsiJaune] (0, 0) rectangle (0.5\paperwidth, 1.2mm);
     \node[anchor=north west, inner sep=0pt, text width=0.5\paperwidth-16mm,
-          align=left, text=white] at (8mm, \paperheight-12mm) {%
+          align=left, text=white] at (8mm, \paperheight-10mm) {%
       {\usebeamerfont{title}\hyphenpenalty=10000\inserttitle\par}%
-      \vspace{6mm}%
-      {\bfseries\insertauthor\par}%
+      \vspace{3mm}%
+      {\color{tsiJaune}\rule{18mm}{1.2pt}\par}%
+      \vspace{4mm}%
+      \pfetsi@ligneinfo{users}{\bfseries\insertauthor}%
       \vspace{1.5mm}%
-      {\small Encadrement : \pfetsi@encadrants\par}%
-    };
-    \node[anchor=south west, inner sep=0pt, text width=0.5\paperwidth-16mm,
-          align=left, text=white, font=\footnotesize] at (8mm, 9mm) {%
-      \pfetsi@formation\\
-      \pfetsi@etablissement\\[1.5mm]
-      {\bfseries\insertdate}%
+      \pfetsi@ligneinfo{user-tie}{\small Encadrement : \pfetsi@encadrants}%
+      \vspace{5mm}%
+      {\footnotesize
+       \pfetsi@ligneinfo{graduation-cap}{\pfetsi@formation}%
+       \vspace{1.2mm}%
+       \pfetsi@ligneinfo{university}{\pfetsi@etablissement}%
+       \vspace{1.2mm}%
+       \pfetsi@ligneinfo{calendar-alt}{\bfseries\insertdate}}%
     };
     % Logo cartouche amU dans l'angle inférieur droit
     \ifx\pfetsi@logoprincipal\@empty\else

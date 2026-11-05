@@ -27,7 +27,7 @@ soutenance.pdf            Exemple compilé
 | État de l'art | Méthodes existantes |
 | Méthodologie | Formulation du problème ; méthode proposée ; extension |
 | Expérimentations | Données et protocole ; résultats quantitatifs ; résultats qualitatifs |
-| Conclusion | Contributions ; conclusion et perspectives |
+| Conclusion | Contributions, conclusion et perspectives (une diapositive) |
 | — | Merci — Questions ? |
 | Annexes | Répartition des tâches, puis diapositives de secours pour les questions (non comptées) |
 
