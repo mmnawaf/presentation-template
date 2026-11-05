@@ -23,11 +23,11 @@ soutenance.pdf            Exemple compilé
 | Section | Diapositives |
 |---|---|
 | — | Titre et plan (une seule diapositive) |
-| Introduction | Contexte et motivation ; problématique et objectifs ; contributions |
+| Introduction | Contexte et motivation ; problématique et objectifs |
 | État de l'art | Méthodes existantes |
 | Méthodologie | Formulation du problème ; méthode proposée ; extension |
 | Expérimentations | Données et protocole ; résultats quantitatifs ; résultats qualitatifs |
-| Conclusion | Conclusion et perspectives |
+| Conclusion | Contributions ; conclusion et perspectives |
 | — | Merci — Questions ? |
 | Annexes | Répartition des tâches, puis diapositives de secours pour les questions (non comptées) |
 
