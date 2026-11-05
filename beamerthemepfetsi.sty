@@ -33,12 +33,10 @@
 % Couleurs de la charte graphique amU
 %   bleu  #1F63DE (Pantone 285C) : couleur principale ;
 %   jaune #FFFF85 (Pantone 903C) : mise en évidence. Trop clair pour du
-%   texte sur fond blanc, il est toujours associé à du texte noir ;
-%   vert  #53DE94 (Pantone 3395C) : secteur sciences et technologies.
+%   texte sur fond blanc, il est toujours associé à du texte noir.
 % ---------------------------------------------------------------------
 \definecolor{tsiBleu}{HTML}{1F63DE}
 \definecolor{tsiJaune}{HTML}{FFFF85}
-\definecolor{tsiVert}{HTML}{53DE94}
 \definecolor{tsiTexte}{HTML}{1A1A1A}
 \definecolor{tsiGris}{HTML}{6B7280}
 \definecolor{tsiFond}{HTML}{EEF3FC}
@@ -52,8 +50,8 @@
 \setbeamercolor{block body}{fg=tsiTexte, bg=tsiFond}
 \setbeamercolor{block title alerted}{fg=tsiTexte, bg=tsiJaune}
 \setbeamercolor{block body alerted}{fg=tsiTexte, bg=tsiJaune!35}
-\setbeamercolor{block title example}{fg=tsiTexte, bg=tsiVert}
-\setbeamercolor{block body example}{fg=tsiTexte, bg=tsiVert!15}
+\setbeamercolor{block title example}{fg=tsiBleu, bg=tsiBleu!15}
+\setbeamercolor{block body example}{fg=tsiTexte, bg=tsiBleu!5}
 \setbeamercolor{footline}{fg=tsiGris}
 \setbeamercolor{caption}{fg=tsiGris}
 \setbeamercolor{bibliography entry author}{fg=tsiTexte}
@@ -70,7 +68,7 @@
   \RequirePackage[sfdefault, lining]{FiraSans}
   \RequirePackage[scaled=0.97]{newtxsf}
 }{}
-\setbeamerfont{title}{size=\Large, series=\bfseries}
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
 \setbeamerfont{frametitle}{size=\large, series=\bfseries}
 \setbeamerfont{block title}{size=\normalsize, series=\bfseries}
 \setbeamerfont{footline}{size=\scriptsize}
@@ -134,18 +132,16 @@
   \end{beamercolorbox}%
 }
 
-% Pied de page : logos | section | numéro
+% Pied de page : auteurs | section | numéro
 \setbeamertemplate{footline}{%
-  \begin{beamercolorbox}[wd=\paperwidth, ht=8mm, dp=3mm,
-                         leftskip=6mm, rightskip=8mm]{footline}%
+  \begin{beamercolorbox}[wd=\paperwidth, ht=3mm, dp=3mm,
+                         leftskip=8mm, rightskip=8mm]{footline}%
     \usebeamerfont{footline}%
-    \makebox[\dimexpr(\paperwidth-14mm)*2/5\relax][l]{%
-      \pfetsi@rangeelogos{6mm}}%
-    \raisebox{2.3mm}{%
-      \makebox[\dimexpr(\paperwidth-14mm)*2/5\relax][c]{\insertsectionhead}%
-      \makebox[\dimexpr(\paperwidth-14mm)/5\relax][r]{%
-        \ifpfetsi@annexe Annexe~\insertframenumber
-        \else\insertframenumber\,/\,\inserttotalframenumber\fi}}%
+    \makebox[\dimexpr(\paperwidth-16mm)*2/5\relax][l]{\insertshortauthor}%
+    \makebox[\dimexpr(\paperwidth-16mm)*2/5\relax][c]{\insertsectionhead}%
+    \makebox[\dimexpr(\paperwidth-16mm)/5\relax][r]{%
+      \ifpfetsi@annexe Annexe~\insertframenumber
+      \else\insertframenumber\,/\,\inserttotalframenumber\fi}%
   \end{beamercolorbox}%
 }
 
@@ -161,14 +157,15 @@
 \newcommand*{\formation}[1]{\renewcommand*{\pfetsi@formation}{#1}}
 \newcommand*{\etablissement}[1]{\renewcommand*{\pfetsi@etablissement}{#1}}
 \newcommand*{\nombreetudiants}[1]{\renewcommand*{\pfetsi@etudiants}{#1}}
-% Logos affichés en bas à gauche de chaque diapositive, séparés par des
-% virgules : \logos{figures/logos/a, figures/logos/b}
+% Logos de la diapositive de titre :
+%   \logoprincipal{fichier} : logotype cartouche amU, placé en bas à droite
+%     comme le prévoit la charte (largeur 36 mm, minimum : 35 mm) ;
+%   \logos{fichier1, fichier2} : logos partenaires, empilés à sa gauche.
+\newcommand*{\pfetsi@logoprincipal}{}
 \newcommand*{\pfetsi@logos}{}
+\newcommand*{\pfetsi@nblogos}{0}
+\newcommand*{\logoprincipal}[1]{\renewcommand*{\pfetsi@logoprincipal}{#1}}
 \newcommand*{\logos}[1]{\renewcommand*{\pfetsi@logos}{#1}}
-\newcommand{\pfetsi@rangeelogos}[1]{%
-  \foreach \pfetsi@fichier [count=\pfetsi@n] in \pfetsi@logos {%
-    \ifnum\pfetsi@n>1 \hspace{3mm}\fi
-    \includegraphics[height=#1]{\pfetsi@fichier}}}
 
 % ---------------------------------------------------------------------
 % Durée de l'exposé et nombre de diapositives
@@ -196,38 +193,48 @@
 
 % ---------------------------------------------------------------------
 % Diapositive de titre et plan (\diapotitre) : titre à gauche sur fond
-% bleu, plan à droite, logos dans le bandeau blanc du bas.
+% bleu, plan à droite, logo amU en bas à droite.
 % ---------------------------------------------------------------------
-\newlength{\pfetsi@bandeau}
-\setlength{\pfetsi@bandeau}{18mm}
 \newcommand{\pfetsi@fondtitre}{%
   \begin{tikzpicture}
     \useasboundingbox (0, 0) rectangle (\paperwidth, \paperheight);
-    \fill[tsiBleu] (0, \pfetsi@bandeau) rectangle
-      (0.5\paperwidth, \paperheight);
-    \fill[tsiJaune] (0, \pfetsi@bandeau) rectangle
-      (0.5\paperwidth, \pfetsi@bandeau+1.2mm);
+    \fill[tsiBleu] (0, 0) rectangle (0.5\paperwidth, \paperheight);
+    \fill[tsiJaune] (0, 0) rectangle (0.5\paperwidth, 1.2mm);
     \node[anchor=north west, inner sep=0pt, text width=0.5\paperwidth-16mm,
-          align=left, text=white] at (8mm, \paperheight-9mm) {%
+          align=left, text=white] at (8mm, \paperheight-12mm) {%
       {\usebeamerfont{title}\hyphenpenalty=10000\inserttitle\par}%
-      \vspace{4mm}%
+      \vspace{6mm}%
       {\bfseries\insertauthor\par}%
-      \vspace{1mm}%
-      {\small Encadrement : \pfetsi@encadrants\par}%
-      \vspace{4mm}%
-      {\footnotesize\pfetsi@formation\\
-       \pfetsi@etablissement\par}%
       \vspace{1.5mm}%
-      {\footnotesize\bfseries\insertdate\par}%
+      {\small Encadrement : \pfetsi@encadrants\par}%
     };
-    \node[anchor=west, inner sep=0pt] at (6mm, 0.5\pfetsi@bandeau)
-      {\pfetsi@rangeelogos{10mm}};
+    \node[anchor=south west, inner sep=0pt, text width=0.5\paperwidth-16mm,
+          align=left, text=white, font=\footnotesize] at (8mm, 9mm) {%
+      \pfetsi@formation\\
+      \pfetsi@etablissement\\[1.5mm]
+      {\bfseries\insertdate}%
+    };
+    % Logo cartouche amU dans l'angle inférieur droit
+    \ifx\pfetsi@logoprincipal\@empty\else
+      \node[anchor=south east, inner sep=0pt] at (\paperwidth, 0)
+        {\includegraphics[width=36mm]{\pfetsi@logoprincipal}};
+    \fi
+    % Logos partenaires empilés à gauche du logo amU, centrés sur sa hauteur
+    \ifx\pfetsi@logos\@empty\else
+      \foreach \pfetsi@f [count=\pfetsi@n] in \pfetsi@logos
+        {\xdef\pfetsi@nblogos{\pfetsi@n}}
+      \foreach \pfetsi@f [count=\pfetsi@k] in \pfetsi@logos {
+        \node[anchor=north east, inner sep=0pt] at ({\paperwidth-40mm},
+          {8.65mm + (\pfetsi@nblogos*5.5mm + (\pfetsi@nblogos-1)*2.5mm)/2
+           - (\pfetsi@k-1)*8mm})
+          {\includegraphics[height=5.5mm]{\pfetsi@f}};
+      }
+    \fi
   \end{tikzpicture}%
 }
 \newcommand{\diapotitre}{%
   {\setbeamertemplate{background canvas}{\pfetsi@fondtitre}%
    \begin{frame}[plain, noframenumbering]
-     \vspace{-\pfetsi@bandeau}%
      \hfill
      \begin{minipage}[c]{0.5\paperwidth-16mm}
        {\usebeamercolor[fg]{structure}\large\bfseries Plan\par}

@@ -62,7 +62,8 @@ Chaque élément est illustré et commenté dans `soutenance.tex`.
 | Annexes non comptées | `\annexes`, puis les diapositives de secours |
 | Version imprimable sans animations | option `handout` de `\documentclass` |
 | Diapositives de transition entre sections | `\usetheme[intercalaires]{pfetsi}` |
-| Logos en bas à gauche | `\logos{figures/logos/a, figures/logos/b}` |
+| Logo amU (titre, en bas à droite) | `\logoprincipal{figures/logos/amu_cartouche_bleu}` |
+| Logos partenaires (à côté du logo amU) | `\logos{figures/logos/a, figures/logos/b}` |
 
 ## Conseils pour la soutenance
 
