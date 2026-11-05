@@ -9,9 +9,7 @@
 %%               section (non comptée dans la numérotation).
 %%
 %% Les étudiants n'ont PAS à modifier ce fichier : tout se passe dans
-%% soutenance.tex. Le thème compare le nombre de diapositives à la durée
-%% de l'exposé (8 min + 2 min par étudiant supplémentaire) et affiche un
-%% avertissement sur la diapositive de titre en cas de dépassement.
+%% soutenance.tex.
 %%
 %% Couleurs et logos : charte graphique amU (mise à jour du 18/09/2024).
 %% =====================================================================
@@ -84,8 +82,7 @@
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 \setbeamertemplate{bibliography item}{\insertbiblabel}
 \setbeamertemplate{itemize item}{%
-  \raisebox{0.15ex}{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.4pt}%
-    \fcolorbox{tsiTexte}{tsiJaune}{\rule{0.75ex}{0pt}\rule{0pt}{0.75ex}}}}
+  \raisebox{0.15ex}{\color{tsiJaune}\rule{0.8ex}{0.8ex}}}
 \setbeamertemplate{itemize subitem}{\color{tsiGris}\textendash}
 \setbeamertemplate{enumerate item}{%
   \colorbox{tsiJaune}{\color{tsiTexte}\bfseries\insertenumlabel}}
@@ -152,11 +149,9 @@
 \newcommand*{\pfetsi@formation}{Master Traitement du Signal et des Images
   (TSI), M2\\Projet de fin d'études}
 \newcommand*{\pfetsi@etablissement}{Aix-Marseille Université}
-\newcommand*{\pfetsi@etudiants}{1}
 \newcommand*{\encadrants}[1]{\renewcommand*{\pfetsi@encadrants}{#1}}
 \newcommand*{\formation}[1]{\renewcommand*{\pfetsi@formation}{#1}}
 \newcommand*{\etablissement}[1]{\renewcommand*{\pfetsi@etablissement}{#1}}
-\newcommand*{\nombreetudiants}[1]{\renewcommand*{\pfetsi@etudiants}{#1}}
 % Logos de la diapositive de titre :
 %   \logoprincipal{fichier} : logotype cartouche amU, placé en bas à droite
 %     comme le prévoit la charte (largeur 36 mm, minimum : 35 mm) ;
@@ -166,30 +161,6 @@
 \newcommand*{\pfetsi@nblogos}{0}
 \newcommand*{\logoprincipal}[1]{\renewcommand*{\pfetsi@logoprincipal}{#1}}
 \newcommand*{\logos}[1]{\renewcommand*{\pfetsi@logos}{#1}}
-
-% ---------------------------------------------------------------------
-% Durée de l'exposé et nombre de diapositives
-%   durée = 8 min pour un étudiant + 2 min par étudiant supplémentaire ;
-%   repère : une diapositive par minute environ (titre, « Questions » et
-%   annexes non comptés). Le test utilise la compilation précédente.
-% ---------------------------------------------------------------------
-\newcommand*{\pfetsi@duree}{\the\numexpr 8 + 2 * (\pfetsi@etudiants - 1)\relax}
-\newcommand*{\pfetsi@nbdiapos}{%
-  \ifcsname mainendframenumber\endcsname
-    \csname mainendframenumber\endcsname
-  \else
-    \inserttotalframenumber
-  \fi}
-\newcommand{\pfetsi@alerte}{%
-  \ifnum\pfetsi@nbdiapos>\pfetsi@duree\relax
-    \PackageWarningNoLine{beamerthemepfetsi}{\pfetsi@nbdiapos\space
-      diapositives pour \pfetsi@duree\space minutes d'exposé}%
-    \par\vspace{5mm}%
-    \colorbox{tsiJaune}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
-      \raggedright\hyphenpenalty=10000\color{tsiTexte}\bfseries\small
-      Attention : \pfetsi@nbdiapos~diapositives pour
-      \pfetsi@duree~minutes d'exposé (repère : une par minute).}}%
-  \fi}
 
 % ---------------------------------------------------------------------
 % Diapositive de titre et plan (\diapotitre) : titre à gauche sur fond
@@ -242,7 +213,6 @@
        {\usebeamercolor[fg]{structure}\large\bfseries Plan\par}
        \vspace{4mm}
        \tableofcontents
-       \pfetsi@alerte
      \end{minipage}
    \end{frame}}%
 }
